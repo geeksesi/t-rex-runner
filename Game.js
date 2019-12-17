@@ -13,11 +13,21 @@
      */
     function Runner(outerContainerId, opt_config) {
         // Singleton
+        
+            this.phone_number = localStorage.getItem('phone_number'); 
+            this.username = localStorage.getItem('username');
+            console.log(this.phone_number);
+                if(this.phone_number == null || this.phone_number === 'null' || typeof this.phone_number ===  'undefined'){
+                    this.phone_number = prompt("شمارتو بنویس که جایزه در انتظارته");
+                    localStorage.setItem('phone_number', this.phone_number);
+                    this.username = prompt("میشه اسمتون رو بدید بزنیم رو دیوار ؟", "ناشناس");
+                    localStorage.setItem('username', this.username);
+                }
         if (Runner.instance_) {
             return Runner.instance_;
         }
         Runner.instance_ = this;
-
+        this.socket = io();
         this.outerContainerEl = document.querySelector(outerContainerId);
         this.containerEl = null;
         this.snackbarEl = null;
@@ -788,6 +798,7 @@
                 this.gameOverPanel.draw();
             }
 
+            this.socket.emit("stop", this.username, this.phone_number, this.distanceRan, res=>{console.log(res)});
             // Update the high score.
             if (this.distanceRan > this.highestScore) {
                 this.highestScore = Math.ceil(this.distanceRan);

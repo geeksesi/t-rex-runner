@@ -7,21 +7,23 @@
         <title >chrome easter egg: t-rex runner</title>
         <link rel="stylesheet" href="index.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
-        <script src="Game.js"></script>
-    </head>
-
-    <body id="t" class="offline">
-        <script>
+        <script src="assets/socket.io.js"></script>
+<!--        <script>
 
             var phone_number = localStorage.getItem('phone_number'); 
                 if(phone_number == null || phone_number === 'null' || typeof phone_number ===  'undefined'){
                     phone_number = prompt("شمارتو بنویس که جایزه در انتظارته");
                     localStorage.setItem('phone_number', phone_number);
+                    username = prompt("میشه اسمتون رو بدید بزنیم رو دیوار ؟", "ناشناس");
+                    localStorage.setItem('username', username);
                 }
 
-            console.log(phone_number);
-        </script>
+</script>-->
 
+        <script src="Game.js"></script>
+    </head>
+
+    <body id="t" class="offline">
         <div id="main-frame-error" class="interstitial-wrapper">
             <div id="main-content">
                 <div class="icon icon-offline" alt=""></div>
@@ -38,14 +40,5 @@
         </div>
     </body>
 
-    <script>
-        document.onkeydown = function(evt) {
-            evt = evt || window.event;
-            if (evt.keyCode == 32) {
-                var box = document.getElementById("messageBox");
-                box.style.visibility="hidden";
-            }
-        };
-    </script>
 
 </html>
