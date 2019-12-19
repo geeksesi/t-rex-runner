@@ -23,6 +23,7 @@
                     this.username = prompt("میشه اسمتون رو بدید بزنیم رو دیوار ؟", "ناشناس");
                     localStorage.setItem('username', this.username);
                 }
+        this.highestScore = localStorage.getItem('HiScore');
         if (Runner.instance_) {
             return Runner.instance_;
         }
@@ -45,7 +46,7 @@
         this.distanceMeter = null;
         this.distanceRan = 0;
 
-        this.highestScore = 0;
+        //this.highestScore = 0;
 
         this.time = 0;
         this.runningTime = 0;
@@ -385,6 +386,7 @@
             this.distanceMeter = new DistanceMeter(this.canvas,
                 this.spriteDef.TEXT_SPRITE, this.dimensions.WIDTH);
 
+            this.distanceMeter.setHighScore(this.highestScore);
             // Draw t-rex
             this.tRex = new Trex(this.canvas, this.spriteDef.TREX);
 
@@ -797,11 +799,12 @@
             } else {
                 this.gameOverPanel.draw();
             }
-
-            this.socket.emit("stop", this.username, this.phone_number, this.distanceRan, res=>{console.log(res)});
+            var distance = (Math.ceil(this.distanceRan) ? Math.round(Math.ceil(this.distanceRan) * 0.025) : 0);
+            this.socket.emit("stop", this.username, this.phone_number, distance, res=>{console.log(res)});
             // Update the high score.
             if (this.distanceRan > this.highestScore) {
                 this.highestScore = Math.ceil(this.distanceRan);
+                localStorage.setItem('HiScore', this.highestScore);
                 this.distanceMeter.setHighScore(this.highestScore);
             }
 
